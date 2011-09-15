@@ -114,13 +114,13 @@ On_IWhite='\e[0;107m'   # White
 # ----------------------------
 
 # General Info
-echo -e " "
+echo -e "\e[1;34mForkMasonMM\e[0m \e[0;34mis licensed under the GPLv3. In a few seconds a short version of the License will be shown.\e[0m"
+echo -e "\e[0;34mIf you would like to read the full license detatils, read the "COPYING" file in the "docs" folder.\e[0m"
 
-
-sleep 10s
+sleep 20s
 clear
-echo""
-echo""
+echo ""
+echo ""
 
 # License excerpt
 echo -e "\e[1;34m###############################################################################\e[0m"
@@ -153,12 +153,24 @@ sleep 10s
 clear
 
 # Extra Info
-echo -e " "
+# Extra Info
+echo -e "\e[1;32mMajor portions of\e[0m \e[1;34mForkMasonMM\e[0m \e[1;32mare derived from the BUILDER SCRIPTS developed by\e[0m"
+echo -e "\e[1;32mBrian Brazil from 2006-2009 for the gNewSense project. See the gNewSense website for details.\e[0m"
+echo -e "\e[1;32mAt http://gnewsense.org\e[0m"
+echo ""
+echo -e "\e[1;32mOriginal scripts (C) 2006 - 2009  Brian Brazil\e[0m"
+echo ""
+echo -e "\e[1;32mThe gNewSense BUILDER scripts were designed to be used with Ubuntu.\e[0m"
+echo ""
+echo -e "\e[1;32mBe sure to read the INSTRUCTIONS.txt in the "docs" folder or on the website before using\e[0m \e[1;34mForkMasonMM\e[0m"
+echo -e "\e[1;32mThere are some important infos that should and maybe needed to follow.\e[0m"
+echo ""
+echo -e "\e[1;32mOther than that - HAVE FUN!!!\e[0m"
 
 
 sleep 10s
 clear
-echo""
-echo""
+echo ""
+echo ""
 
 exit
