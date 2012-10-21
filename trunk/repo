@@ -61,7 +61,7 @@ fi;
 
 
 
-mkdir -p $REPO_DEST/apt/{var,lists/partial,cache/archives/partial}
+mkdir -pv $REPO_DEST/apt/{var,lists/partial,cache/archives/partial}
 touch $REPO_DEST/apt/status
 touch conf/purge-$MIRROR_DIST
 
