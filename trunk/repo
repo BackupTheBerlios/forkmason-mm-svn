@@ -43,7 +43,7 @@ cd $REPO_DEST
 cat >  conf/distributions <<EOF
 Origin: $DIST_NAME
 Label: $DIST_NAME
-Codename: $RELEASE
+Codename: $RELEASE-multimedia
 Update: Upstream
 Architectures: $REPO_ARCHES source
 Components: main community bound
