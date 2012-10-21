@@ -26,6 +26,21 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # ----------------------------------------------------------------------
 
+# -------------------------------
+# Pushes the repo to the mirror
+# -------------------------------
 
+# --------------
+# Get dist info
+# -------------
+. conf
+
+
+
+date '+%s%n%c' > $REPO_DEST/dists/.last_push_repo
+rsync -va $RSYNC_OPTIONS $REPO_DEST/pool $RSYNC_DEST/$DIST_NAME_SMALL/
+rsync -va $RSYNC_OPTIONS --delete $REPO_DEST/dists $RSYNC_DEST/$DIST_NAME_SMALL/
+# Can only delete after dists is updated
+rsync -va --delete --delete-excluded $RSYNC_OPTIONS $REPO_DEST/pool $RSYNC_DEST/$DIST_NAME_SMALL/
 
 

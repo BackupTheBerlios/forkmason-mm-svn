@@ -27,5 +27,195 @@
 # ----------------------------------------------------------------------
 
 
+## ----------------------
+## Check if you are ROOT
+## ----------------------
+if [ $UID != 0 ]; then
+	echo 'This script must be run as root'
+	exit 1
+fi
+
+# -------------------------------
+# Set Debuuging
+# If you want less debugging 
+# info to be printed out,
+# change this line to 'set +ex'
+# ------------------------------
+set -ex
+
+## --------------------
+## UPSTREAM AREA
+## This is where you
+## get your pkgs from
+## --------------------
+
+# -------------------
+# Main Upstream repo
+# -------------------
+MM_MIRROR="http://www.deb-multimedia.org"
+MM_MIRROR_DIST="wheezy"
+MM_MIRROR_COMP="main non-free"
+
+# -------------------
+# Other Upstream repo
+# -------------------
+OTH_MIRROR=""
+OTH_MIRROR_DIST=""
+OTH_MIRROR_COMP=""
+
+
+## ---------------------
+## DISTRO CONFIGURATION
+## ---------------------
+
+# -----------------------
+# Your Distribution Name
+# -----------------------
+DIST_NAME_FULL="Cybernux Linux®"
+DIST_NAME="Cybernux"
+DIST_NAME_L=`echo $DIST_NAME | tr 'A-Z' 'a-z'`
+
+# ----------------------
+# Your Releade Codename
+# ---------------------
+BASE_RELEASE=othala
+[ -z $RELEASE ] && RELEASE=$BASE_RELEASE
+
+# ------------------------------
+# Not really needed - but cool
+# -----------------------------
+TAG_LINE=""
+
+# -------------------------------
+# This is the 8 character key ID,
+# not the full fingerprint
+# -------------------------------
+REPO_KEY=84984D96
+
+# -----------------------------------
+# Name and email address for changes. 
+# Syntax is important.
+# -----------------------------------
+export MAINT_INFO='Jimmy M. Coleman <hyperclock@cybernux.org>'
+
+# ------------
+# Repo Arches
+# ------------
+REPO_ARCHES="i386 amd64"
+
+## --------------------
+## Packaging
+## --------------------
+
+# Version numbers to be appended to generated .debs 
+# Mostly used during development (Increment these versions when making a change to the package)
+PACKAGE_NAME_VERSION=1
+
+
+## -----------------
+## MID STREAM AREA
+## -----------------
+
+# -------------------
+# Where things go on 
+# the Build Server
+# ------------------
+BASE_DIR=/srv/$DIST_NAME_L
+WORK_DIR=$BASE_DIR/tmp
+LIVE_DIR=$BASE_DIR/livecd
+REPO_DEST=$BASE_DIR/$DIST_NAME_L
+
+# ---------------------------
+# Where the buildscripts and 
+# livecd pull sources from
+# --------------------------
+REPO_APT=http://127.0.0.1/$DIST_NAME_L
+
+## ----------------
+## LIVE CD STUFF
+## ----------------
+
+# --------------------
+# Live CD/DVD Version
+# -------------------
+LIVE_VERS=1.0
+
+## -------------
+## ARCHIVE AREA
+## -------------
+
+#-------------------------------------------
+# Primary mirror should be archive.$DOMAIN, 
+# secondaries are CC.archive.$DOMAIN
+# Security host will be security.$DOMAIN 
+# and CC.security.$DOMAIN
+# -----------------------------------------
+DOMAIN=cybernux.org
+
+# -----------------------------------
+# Where to push the repo and livecds
+# -----------------------------------
+RSYNC_DEST=USER@multimedia.$DOMAIN:/web/$DIST_NAME_L/
+
+# ----------------------------
+# Extra options for rsyncing 
+# up cds, -va is assumed
+# ---------------------------
+RSYNC_OPTIONS="--partial"
+
+
+## -----------------------------
+## EDIT ONLY WHERE NOTED
+## Unless you know what you are
+## If your changes work, report 
+## back to us - we may use it.
+## -----------------------------
+
+# -------------------------------------------
+# CHANGE the arch we are building. 
+# Defaults to i386 if nothing is specified
+# Valid strings are "amd64" and "i386"
+# -------------------------------------------
+if [ -z $BUILD_ARCH ]; then
+	BUILD_ARCH="i386"
+fi
+
+# -------------------------------------------------
+# DON'T CHANGE THIS - may break things
+# This sets variables for different 
+# sections of the $BUILD_ARCH variable
+# Using case to be a little forgiving about input
+# -------------------------------------------------
+case $BUILD_ARCH in
+	386 | i386 | I386 | ia32 | IA32)
+		export HOST_ARCH="i386";
+		export KERNEL_ARCH="386";
+		export DPKG_OPTS='-rfakeroot -e"$MAINT_INFO" -m"$MAINT_INFO" -us -uc -ai386';
+	;;
+	amd64 | AMD64)
+		export HOST_ARCH="amd64";
+		export KERNEL_ARCH="amd64";
+		export DPKG_OPTS='-rfakeroot -e"$MAINT_INFO" -m"$MAINT_INFO" -us -uc -B -aamd64';
+	;;
+	*)
+	echo -e "\n\nERROR\! invalid arch\!\n\n"
+	exit 1
+	;;
+esac
+
+# --------------------------------
+# CHANGE:
+# this is the Kernel version used 
+# --------------------------------
+case $(tr A-Z a-z <<<$MIRROR_DIST) in
+	"wheezy")
+		export KERNEL_RELEASE="3.2.0"
+		;;
+	*)
+		exit 1
+		;;
+esac
+
+
 
 

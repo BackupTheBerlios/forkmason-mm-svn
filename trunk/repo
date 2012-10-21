@@ -27,5 +27,42 @@
 # ----------------------------------------------------------------------
 
 
+# --------------
+# Get dist info
+# -------------
+. conf
+
+# ----------------
+# Set Destination
+# ----------------
+mkdir -pv $REPO_DEST/conf
+
+
+cd $REPO_DEST
+
+cat >  conf/distributions <<EOF
+Origin: $DIST_NAME
+Label: $DIST_NAME
+Codename: $RELEASE
+Update: Upstream
+Architectures: $REPO_ARCHES source
+Components: main community bound
+SignWith: $REPO_KEY
+DscIndices: Sources Release . .gz
+EOF
+
+cat >  conf/updates <<EOF
+Name: Upstream
+Method: $MM_MIRROR
+Suite: $MM_MIRROR_DIST
+Components: main>main contrib>community non-free>bound
+EOF
+fi;
+
+
+
+mkdir -p $REPO_DEST/apt/{var,lists/partial,cache/archives/partial}
+touch $REPO_DEST/apt/status
+touch conf/purge-$MIRROR_DIST
 
 

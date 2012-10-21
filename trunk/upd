@@ -27,5 +27,21 @@
 # ----------------------------------------------------------------------
 
 
+# --------------
+# Get dist info
+# -------------
+. conf
 
+
+	reprepro --noskipold -V -b $REPO_DEST update
+
+# ------------------------------
+# Unset BUILD_ARCH so it 
+# won't contaminate future runs
+# ------------------------------
+unset BUILD_ARCH
+unset MAINT_INFO
+unset DPKG_OPTS
+
+echo "Updating completed"
 
