@@ -52,7 +52,7 @@ set -ex
 # -------------------
 # Main Upstream repo
 # -------------------
-MM_MIRROR="http://www.deb-multimedia.org"
+MM_MIRROR="http://www.deb-multimedia.org/"
 MM_MIRROR_DIST="wheezy"
 MM_MIRROR_COMP="main non-free"
 
@@ -216,6 +216,12 @@ case $(tr A-Z a-z <<<$MIRROR_DIST) in
 		;;
 esac
 
+# -------------------------------------
+# Without this, somethings will break. 
+# Some diff cleaning does, probably 
+# affects other stuff too.
+#--------------------------------------
+LANG=C
 
 
 
