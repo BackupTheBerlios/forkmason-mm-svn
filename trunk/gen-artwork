@@ -1,0 +1,74 @@
+#!/bin/bash
+
+###############################################################################
+#		(C) 2009-2011 hyperclock (aka Jimmy M. Coleman)
+#        website	:		www.cybernux.org
+#        email		:		hyperclock(at)cybernux(dot)org
+#        svn		:		http://xp-dev.com/svn/ForkForge/
+#        dev		:		http://dev.cybernux.org
+#
+###############################################################################
+###############################################################################
+#    ForkMason - Scripts designed to build Cybernux Linux® based on Debian.
+#
+#    ForkMason is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    ForkMason is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy (see docs/gpl-3.0.txt) of the GNU General
+#    Public License along with ForkMason.  If not, see
+#    <http://www.gnu.org/licenses/>.
+#
+################################################################################
+################################ INFO ##########################################
+#
+#       Derived from the scripts used by the gNewSense Project.
+#       See the original scripts at http://gnewsense.org
+#
+#       Original (C) 2006 - 2009  Brian Brazil
+#
+#################################################################################
+
+
+. config
+
+IMGDIR=$PWD/images
+rm -rf $WORKINGDIR
+mkdir -p $WORKINGDIR
+cd $WORKINGDIR
+
+apt-get source ubuntu-artwork$VERSION
+apt-get --yes build-dep ubuntu-artwork$VERSION
+cd ubuntu-artwork-*
+
+# Icons
+if [ -f $IMGDIR/$DISTRONAME_L-icon-48x48.png ]; then
+	cp $IMGDIR/$DISTRONAME_L-icon-48x48.png distributor-logo.png
+else
+	convert -size 48x48 xc:transparent -fill $LOGO_COLOUR -gravity Center -pointsize 44 -draw "text 0,-4 '$LOGO_LETTER'" distributor-logo.png
+fi
+
+sed -i "/gtk_theme/s/Human/${DISTRONAME}-Murrine/" debian/gconf-defaults
+sed -i -e "s#Section: non-free/x11#x11#g" debian/control
+# Easiest place to set this
+echo '/desktop/gnome/url-handlers/http/command gnome-www-browser "%s"' >> debian/gconf-defaults
+echo '/desktop/gnome/url-handlers/https/command gnome-www-browser "%s"' >> debian/gconf-defaults
+
+sed -i "s/ubuntu-artwork/${DISTRONAME_L}-artwork/" debian/rules
+sed -i "s/human-theme[^,]*/${DISTRONAME_L}-theme/" debian/control
+
+echo | dch -D $RELEASE -v $(sed -n '1s#^.*(\(.*\)).*#\1'${DISTRONAME_L}${ARTWORK_VERSION}'#p' debian/changelog)  "Munged to show $DISTRONAME graphics"
+sed -i "1s/^ubuntu-artwork/${DISTRONAME_L}-artwork/" debian/changelog
+sed -i "s/ubuntu-artwork/${DISTRONAME_L}-artwork/;
+	s/Ubuntu/$DISTRONAME/;
+	s/ubuntu-gdm-themes/${DISTRONAME_L}-gdm-themes/;
+	s/ubuntu-wallpapers/${DISTRONAME_L}-wallpapers/;
+	s/^\\(Package: ${DISTRONAME_L}-artwork.*\\)/\1\\nConflicts: ubuntu-artwork/;" debian/control
+
+dpkg-buildpackage $DPKGOPTS

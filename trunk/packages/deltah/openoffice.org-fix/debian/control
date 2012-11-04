@@ -1,0 +1,15 @@
+Source: openoffice.org-fix
+Section: editors
+Priority: optional
+Maintainer: Sam Geeraerts <samgee@elmundolibre.be>
+Build-Depends: debhelper (>= 5)
+Standards-Version: 3.7.2
+
+Package: openoffice.org-fix
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Point OpenOffice.org to a list of free extension
+ By default OpenOffice.org points to a list of extensions that contains
+ non-free ones. This package fixes that by making it point to a list
+ of extensions that was started by the Free Software Foundation and is
+ maintained by volunteers.

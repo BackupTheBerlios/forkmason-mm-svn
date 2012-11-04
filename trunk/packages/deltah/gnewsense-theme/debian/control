@@ -1,0 +1,20 @@
+Source: gnewsense-theme
+Section: x11
+Priority: optional
+Maintainer: Leo Arias <yo@elopio.net>
+Build-Depends: debhelper (>= 5), cdbs, python-dev (>= 2.4), python-distutils-extra, python-central (>= 0.5)
+Standards-Version: 3.7.2
+
+Package: gnewsense-theme
+Architecture: all
+Section: x11
+Conflicts: human-cursors-theme (<= 0.5)
+Replaces: 
+Provides: gnewsense-gtk-theme
+Depends: dmz-cursor-theme, human-icon-theme, gtk2-engines-ubuntulooks, gtk2-engines-murrine, human-theme
+Description: gNewSense theme
+ The default gNewSense theme. At the moment the package contains
+  - the theme definitions.
+ .
+ It pulls in the Cursor theme, the GTK theme and the Icon theme
+ from Ubuntu Human.

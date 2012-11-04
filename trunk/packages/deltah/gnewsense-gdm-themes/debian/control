@@ -1,0 +1,16 @@
+Source: gnewsense-gdm-themes
+Section: x11
+Priority: optional
+XS-Python-Version: all
+Maintainer: Leo Arias <elopio@softwarelibrecr.org>
+Build-Depends: debhelper(>= 5), cdbs, python-dev (>= 2.4), python-distutils-extra, python-central (>= 0.5)
+Standards-Version: 3.7.2
+
+Package: gnewsense-gdm-themes
+Architecture: all
+Section: x11
+Conflicts: ubuntu-artwork (<< 31), edgy-gdm-themes (<< 0.8), feisty-gdm-themes (<< 0.23), ubuntu-gdm-themes
+Replaces: ubuntu-artwork (<< 31), edgy-gdm-themes (<< 0.8), feisty-gdm-themes (<< 0.23), ubuntu-gdm-themes
+Description: gNewSense GDM themes
+ The default GDM themes for gNewSense. At the moment the package contains:
+  * deltah

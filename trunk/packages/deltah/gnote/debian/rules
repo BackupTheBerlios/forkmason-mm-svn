@@ -1,0 +1,42 @@
+#!/usr/bin/make -f
+
+deb_version		:= $(shell dpkg-parsechangelog | sed -ne "s/^Version: \(.*\)/\1/p")
+orig_version		:= $(shell echo $(deb_version) | sed -e "s/-.*//")
+upstream_version	:= $(shell echo $(orig_version) | sed -e "s/+.*//")
+major := $(shell echo $(upstream_version) | sed -e "s/\([0-9]\+\.[0-9]\+\)\..*/\1/g")
+upstream_base_url := http://ftp.gnome.org/pub/GNOME/sources/gnote
+
+DEB_TAR_SRCDIR := gnote-$(upstream_version)
+
+#DEB_AUTO_UPDATE_AUTOMAKE := 1.10
+#DEB_AUTO_UPDATE_AUTOCONF := 2.50
+DEB_CONFIGURE_USER_FLAGS := \
+	--disable-scrollkeeper \
+	--disable-static \
+	$(NULL)
+
+LDFLAGS = "-Wl,--as-needed" 
+
+include /usr/share/cdbs/1/rules/tarball.mk
+include /usr/share/cdbs/1/class/autotools.mk
+include /usr/share/cdbs/1/rules/debhelper.mk
+include /usr/share/cdbs/1/rules/simple-patchsys.mk
+include /usr/share/cdbs/1/class/gnome.mk		# must be after debhelper.mk
+
+clean::
+	rm -rf tempdir
+
+get-orig-source: ../gnote_$(orig_version).orig.tar.gz
+
+../gnote_$(orig_version).orig.tar.gz: tempdir/gnote-$(upstream_version)/gnote-$(upstream_version).tar.bz2
+	tar -C tempdir -cf - --mtime=@0 gnote-$(upstream_version) | gzip -fn9 > $@
+
+tempdir/gnote-$(upstream_version)/gnote-$(upstream_version).tar.bz2:
+	mkdir -p `dirname $@`
+	wget $(upstream_base_url)/$(major)/gnote-$(upstream_version).tar.bz2 -O - > $@ || rm -f $@
+	cd tempdir/gnote-$(upstream_version) && wget $(upstream_base_url)/$(major)/gnote-$(upstream_version).sha256sum -O - -q \
+		| grep bz2 \
+		| sha256sum -c -
+
+binary-install/gnote::
+	find debian/gnote -name "*.la" -exec rm -f "{}" \;

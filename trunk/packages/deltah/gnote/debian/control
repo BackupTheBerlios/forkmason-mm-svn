@@ -1,0 +1,39 @@
+Source: gnote
+Section: gnome
+Priority: optional
+Maintainer: Robert Millan <rmh.debian@aybabtu.com>
+Build-Depends: cdbs,
+ debhelper (>= 6),
+ bzip2,
+ automake (>= 1:1.10), automake (<< 1:1.11),
+ autoconf (>= 2.53),
+ pkg-config (>= 0.14.0),
+ libgtk2.0-dev (>= 2.12),
+ libglibmm-2.4-dev,
+ libgtkmm-2.4-dev,
+ libpanelappletmm-2.6-dev,
+ libgtkspell-dev,
+ libxml2-dev,
+ libgconf2-dev,
+ uuid-dev,
+ libboost-dev,
+ libboost-filesystem-dev,
+ libboost-test-dev,
+ libpcre++-dev,
+ intltool (>= 0.35),
+ gnome-doc-utils (>= 0.4.2),
+ rarian-compat,
+ libxslt1-dev,
+Standards-Version: 3.8.1
+Homepage: http://live.gnome.org/Gnote
+
+Package: gnote
+Architecture: any
+Provides: tomboy
+Depends: ${shlibs:Depends}, ${misc:Depends}, libgtk2.0-0 (>= 2.14) | xdg-utils
+Description: desktop note taking program using Wiki style links
+ Gnote is a desktop note-taking application which is simple and easy to
+ use. It lets you organise your notes intelligently by allowing you to
+ easily link ideas together with Wiki style interconnects.
+ .
+ It is a port of Tomboy to C++ and consumes less resources.

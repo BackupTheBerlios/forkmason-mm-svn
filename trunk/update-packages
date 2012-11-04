@@ -1,0 +1,48 @@
+#!/bin/bash
+
+###############################################################################
+#		(C) 2009-2011 hyperclock (aka Jimmy M. Coleman)
+#        website	:		www.cybernux.org
+#        email		:		hyperclock(at)cybernux(dot)org
+#        svn		:		http://xp-dev.com/svn/ForkForge/
+#        dev		:		http://dev.cybernux.org
+#
+###############################################################################
+###############################################################################
+#    ForkMason - Scripts designed to build Cybernux Linux® based on Debian.
+#
+#    ForkMason is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    ForkMason is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy (see docs/gpl-3.0.txt) of the GNU General
+#    Public License along with ForkMason.  If not, see
+#    <http://www.gnu.org/licenses/>.
+#
+################################################################################
+################################ INFO ##########################################
+#
+#       Derived from the scripts used by the gNewSense Project.
+#       See the original scripts at http://gnewsense.org
+#
+#       Original (C) 2006 - 2009  Brian Brazil
+#
+#################################################################################
+#    Copyright (C) 2010  Sam Geeraerts
+#################################################################################
+
+# Get the latest version of distro-specific packages.
+
+. config
+
+MRCONFIG="$DISTRONAME_L".mrconfig
+
+cd packages && \
+mr -c "$MRCONFIG" checkout && \
+mr -c "$MRCONFIG" update

@@ -1,0 +1,161 @@
+Source: gnash
+Priority: optional
+Maintainer: Dmitry Samoyloff <dmitry@obscurehalt.org>
+Build-Depends: dpkg-dev (>= 1.13.19), debhelper (>= 6.0.4), autoconf, automake, libtool, libltdl3-dev, libxmu-dev, dejagnu, autotools-dev, libjpeg-dev, libpng12-dev, libagg-dev, libpango1.0-dev, libcurl4-gnutls-dev, libboost-dev, libboost-thread-dev, libboost-date-time-dev, libboost-serialization-dev, libgtk2.0-dev, libpango1.0-dev, libatk1.0-dev, python-dev, libkonq4-dev, python-gtk2-dev, docbook, docbook2x, libgif-dev, libgstreamer-plugins-base0.10-dev, libgstreamer0.10-dev, libsdl1.2-dev
+Standards-Version: 3.7.3
+Section: universe/utils
+Homepage: http://www.gnu.org/software/gnash/
+
+Package: gnash-common
+Section: universe/libs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends},
+ gstreamer-plugins-base | libgstreamer-plugins-base0.10-0, gstreamer0.10-plugins-bad, gstreamer0.10-fluendo-mp3, gstreamer0.10-ffmpeg
+Suggests: mozilla-plugin-gnash (= ${binary:Version})
+Description: free SWF movie player - common files/libraries
+ Gnash is a free Flash movie player, which works either standalone, or as
+ plugin for Firefox/Mozilla or Konqueror.
+ .
+ This package includes the common, gui-independent files/libraries
+
+Package: gnash
+Section: universe/utils
+Architecture: any
+Depends: gnash-common (= ${binary:Version}),
+ ${shlibs:Depends}, ${misc:Depends}
+Description: free SWF movie player
+ Gnash is a free Flash movie player, which works either standalone, or as
+ plugin for Firefox/Mozilla or Konqueror. Currently it is in a beta state.
+ The plugins are under heavy development at this time.
+ .
+ Gnash supports the majority of Flash opcodes up to SWF version 8, and
+ a wide sampling of ActionScript classes for SWF version 9 and 10. All the
+ core ones are implemented, and many of the newer ones work, but may be
+ missing some of their methods.
+ .
+ This package includes the standalone GTK+-based player that uses software
+ rendering.
+
+Package: klash
+Section: universe/utils
+Architecture: any
+Depends: gnash-common (= ${binary:Version}),
+ ${shlibs:Depends}, ${misc:Depends}
+Description: free SWF movie player - standalone player for KDE
+ Gnash is a free Flash movie player, which works either standalone, or as
+ plugin for Firefox/Mozilla or Konqueror. Currently it is in a beta state.
+ The plugins are under heavy development at this time.
+ .
+ Gnash supports the majority of Flash opcodes up to SWF version 7, and
+ a wide sampling of ActionScript classes for SWF version 8.5. All the
+ core ones are implemented, and many of the newer ones work, but may be
+ missing some of their methods.
+ .
+ Included in the Gnash is an XML based messaging system, as specified in
+ the Flash specification. This lets a flash movie communicate over a TCP/IP
+ socket, and parse the incoming XML message. This lets a movie be a remote
+ control for other devices or applications.
+ .
+ Klash is a free standalone Flash movie player for KDE.
+
+Package: gnash-tools
+Section: universe/utils
+Architecture: any
+Depends:  gnash-common (= ${binary:Version}),
+ ${shlibs:Depends}, ${misc:Depends}
+Description: free SWF movie player - Command-line Tools
+ Gnash is a free Flash movie player, which works either standalone, or as
+ plugin for Firefox/Mozilla or Konqueror. Currently it is in a beta state.
+ The plugins are under heavy development at this time.
+ .
+ Gnash supports the majority of Flash opcodes up to SWF version 7, and
+ a wide sampling of ActionScript classes for SWF version 8.5. All the
+ core ones are implemented, and many of the newer ones work, but may be
+ missing some of their methods.
+ .
+ Included in the Gnash is an XML based messaging system, as specified in
+ the Flash specification. This lets a flash movie communicate over a TCP/IP
+ socket, and parse the incoming XML message. This lets a movie be a remote
+ control for other devices or applications.
+ .
+ This package includes command-line utilities based in gnash.
+
+Package: gnash-cygnal
+Section: universe/utils
+Architecture: any
+Depends: gnash-common (= ${binary:Version}),
+ ${shlibs:Depends}, ${misc:Depends}
+Description: free SWF movie player - Media server
+ Gnash is a free Flash movie player, which works either standalone, or as
+ plugin for Firefox/Mozilla or Konqueror. Currently it is in a beta state.
+ The plugins are under heavy development at this time.
+ .
+ Gnash supports the majority of Flash opcodes up to SWF version 7, and
+ a wide sampling of ActionScript classes for SWF version 8.5. All the
+ core ones are implemented, and many of the newer ones work, but may be
+ missing some of their methods.
+ .
+ Included in the Gnash is an XML based messaging system, as specified in
+ the Flash specification. This lets a flash movie communicate over a TCP/IP
+ socket, and parse the incoming XML message. This lets a movie be a remote
+ control for other devices or applications.
+ .
+ Cygnal is Gnash's media server.
+
+Package: mozilla-plugin-gnash
+Section: universe/utils
+Architecture: any
+Depends: gnash (= ${binary:Version}),
+ ${shlibs:Depends}, ${misc:Depends}
+Xb-Npp-Applications: ec8030f7-c20a-464f-9b0e-13a3a9e97384,92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a,aa5ca914-c309-495d-91cf-3141bbb04115
+Xb-Npp-MimeType: application/x-shockwave-flash
+Xb-Npp-Name: Gnash SWF Player
+Description: free SWF movie player - Plugin for Mozilla and derivatives
+ Gnash is a free Flash movie player, which works either standalone, or as
+ plugin for Firefox/Mozilla or Konqueror.
+ .
+ This package includes the plugin for Firefox/Mozilla Web Browser.
+
+Package: konqueror-plugin-gnash
+Section: universe/utils
+Architecture: any
+Depends: klash (= ${binary:Version}),
+ ${shlibs:Depends}, ${misc:Depends}
+Description: free SWF movie player - Plugin for Konqueror
+ Gnash is a free Flash movie player, which works either standalone, or as
+ plugin for Firefox/Mozilla or Konqueror.
+ .
+ This package includes the plugin for Konqueror.
+
+Package: gtk-plugin-gnash
+Section: universe/libs
+Architecture: any
+Depends: gnash-common (= ${binary:Version}),
+ ${shlibs:Depends},  ${misc:Depends}
+Xb-Npp-Applications: ec8030f7-c20a-464f-9b0e-13a3a9e97384,92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a,aa5ca914-c309-495d-91cf-3141bbb04115
+Xb-Npp-MimeType: application/x-shockwave-flash
+Xb-Npp-Name: Gnash SWF Player
+Description: free SWF movie player - Plugin for Gtk and PyGtk donated by Sugar Labs
+ .
+ This package includes the plugin for Gtk and PyGtk..
+
+Package: gnash-dbg
+Architecture: any
+Section: universe/devel
+Priority: extra
+Depends: gnash-common (= ${binary:Version}),
+ ${shlibs:Depends}, ${misc:Depends}
+Description: Debug symbols for Gnash
+ Gnash is a free Flash movie player, which works either standalone, or as
+ plugin for Firefox/Mozilla or Konqueror. Currently it is in a beta state.
+ The plugins are under heavy development at this time.
+ .
+ Gnash supports the majority of Flash opcodes up to SWF version 7, and
+ a wide sampling of ActionScript classes for SWF version 8.5. All the
+ core ones are implemented, and many of the newer ones work, but may be
+ missing some of their methods.
+ .
+ Included in the Gnash is an XML based messaging system, as specified in
+ the Flash specification. This lets a flash movie communicate over a TCP/IP
+ socket, and parse the incoming XML message. This lets a movie be a remote
+ control for other devices or applications.

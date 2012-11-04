@@ -1,0 +1,13 @@
+openoffice.org-fix (0.2) deltah; urgency=low
+
+  * Handle directory of diverted file, because our version of dpkg-divert
+    doesn't do that.
+
+ -- Sam Geeraerts <samgee@elmundolibre.be>  Sun, 06 Jun 2010 15:15:36 +0200
+
+openoffice.org-fix (0.1) deltah; urgency=low
+
+  * Initial release (Closes: #29832)
+
+ -- Sam Geeraerts <samgee@elmundolibre.be>  Thu, 27 May 2010 19:49:58 +0000
+

@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE greeter SYSTEM "greeter.dtd">
+<!--
+This file is part of gnewsense-gdm-theme, a GNOME Display Manager greeter theme.
+
+Copyright (c) 2008 Patricio Maciel "Daleduro" <daleduro.phm@gmail.com>.
+
+gnewsense-gdm-theme is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+gnewsense-gdm-theme is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with gnewsense-gdm-theme.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<greeter>
+
+  <!-- background -->
+  <item type="pixmap">
+    <normal file="background.png"/>
+    <pos y="0" x="0" width="100%" height="100%"/>
+  </item>
+
+  <!-- welcome label -->
+  <item type="rect">
+    <pos x="50%" y="10%" width="box" anchor="n"/>
+    <box spacing="10" orientation="vertical">
+      <item type="label" id="clock">
+        <pos x="50%" anchor="c"/>
+        <normal font="Sans Bold 13" color="#ffffff"/>
+        <stock type="welcome-label"/>
+      </item>
+      <item type="pixmap">
+        <normal file="welcome-division.png" />
+      </item>
+    </box>
+  </item>
+  
+  <!-- password box -->
+  <item type="pixmap">
+    <pos x="70%" y="60.2%" width="box" height="90" anchor="c"/>
+    <normal file="user-password-container.png"/>
+    <box xpadding="0" ypadding="11.5" spacing="5" orientation="horizontal">
+      <item type="rect">
+        <pos x="0%" y="0%" width="box" height="box" expand="true"/>
+        <normal color="#ffffff" alpha="0.00"/>
+        <box xpadding="50" ypadding="20" spacing="40" orientation="horizontal">
+          <item type="label" id="pam-prompt">
+            <pos y="5"/>
+            <normal font="Sans Bold 9" color="#ffffff"/>
+            <stock type="username-label"/>
+          </item>
+          <item type="rect">
+            <normal color="#dce2e5"/>
+            <pos width="160" height="24"/>
+            <fixed>
+              <item type="entry" id="user-pw-entry">
+                <pos y="1" x="1" width="-2" height="-2" anchor="nw"/>
+              </item>
+            </fixed>
+          </item>
+        </box>
+      </item>
+    </box>
+  </item>
+
+
+
+  <!-- menu -->
+  <item type="rect">
+    <pos x="21%" y="80%" width="box" height="box" anchor="c"/>
+    <normal color="#ffffff" alpha="0.00"/>
+    <box xpadding="10" ypadding="8" spacing="10" orientation="vertical" homogeneous="true">
+      <!-- language -->
+      <item type="rect" id="language_button" button="true">
+        <pos x="20%" y="100%" width="box" height="box" anchor="w"/>
+        <box xpadding="0" spacing="6" orientation="horizontal">
+          <item type="pixmap">
+            <pos y="50%" width="6" height="6" anchor="c"/>
+            <normal file="menu-bullet.png" alpha="-1"/>
+            <prelight file="menu-bullet.png"/>
+            <active file="menu-bullet.png"/>
+          </item>
+          <item type="label">
+            <normal font="Sans Bold 9" color="#ffffff"/>
+            <prelight font="Sans Bold 9" color="#b7b7b7"/>
+            <active font="Sans Bold 9" color="#e9ddaf"/>
+            <pos y="50%" anchor="w"/>
+            <stock type="language"/>
+          </item>
+        </box>
+      </item>
+      <!-- session -->
+      <item type="rect" id="session_button" button="true">
+        <pos x="20%" y="100%" width="box" height="box" anchor="w"/>
+        <box xpadding="0" spacing="6" orientation="horizontal">
+          <item type="pixmap">
+            <pos y="50%" width="6" height="6" anchor="c"/>
+            <normal file="menu-bullet.png" alpha="-1"/>
+            <prelight file="menu-bullet.png"/>
+            <active file="menu-bullet.png"/>
+          </item>
+          <item type="label">
+            <normal font="Sans Bold 9" color="#ffffff"/>
+            <prelight font="Sans Bold 9" color="#b7b7b7"/>
+            <active font="Sans Bold 9" color="#e9ddaf"/>
+            <pos y="50%" anchor="w"/>
+            <stock type="session"/>
+          </item>
+        </box>
+      </item>
+      <item type="pixmap">
+        <pos x="42%" y="100%" anchor="c"/>
+        <normal file="menu-division.png" />
+      </item>
+      <!-- reboot -->
+      <item type="rect" id="reboot_button" button="true">
+        <show type="reboot" modes="console"/>
+        <pos x="20%" y="100%" width="box" height="box" anchor="w"/>
+        <box xpadding="0" spacing="6" orientation="horizontal">
+          <item type="pixmap">
+            <pos y="50%" width="6" height="6" anchor="c"/>
+            <normal file="menu-bullet.png" alpha="-1"/>
+            <prelight file="menu-bullet.png"/>
+            <active file="menu-bullet.png"/>
+          </item>
+          <item type="label">
+            <normal font="Sans Bold 9" color="#ffffff"/>
+            <prelight font="Sans Bold 9" color="#b7b7b7"/>
+            <active font="Sans Bold 9" color="#e9ddaf"/>
+            <pos y="50%" anchor="w"/>
+            <stock type="reboot"/>
+          </item>
+          </box>
+      </item>
+      <!-- halt -->
+      <item type="rect" id="halt_button" button="true">
+        <show type="halt" modes="console"/>
+        <pos x="20%" y="100%" width="box" height="box" anchor="w"/>
+        <box xpadding="0" spacing="6" orientation="horizontal">
+          <item type="pixmap">
+            <pos y="50%" width="6" height="6" anchor="c"/>
+            <normal file="menu-bullet.png" alpha="-1"/>
+            <prelight file="menu-bullet.png"/>
+            <active file="menu-bullet.png"/>
+          </item>
+          <item type="label">
+            <normal font="Sans Bold 9" color="#ffffff"/>
+            <prelight font="Sans Bold 9" color="#b7b7b7"/>
+            <active font="Sans Bold 9" color="#e9ddaf"/>
+            <pos y="50%" anchor="w"/>
+            <stock type="halt"/>
+          </item>
+        </box>
+      </item>
+      <!-- quit / disconnect -->
+      <item type="rect" id="disconnect_button" button="true">
+        <normal/>
+        <show modes="flexi,remote"/>
+        <pos x="20%" y="100%" width="box" height="box" anchor="w"/>
+        <box xpadding="0" spacing="6" orientation="horizontal">
+          <item type="pixmap">
+            <pos y="50%" width="6" height="6" anchor="c"/>
+            <normal file="menu-bullet.png" alpha="-1"/>
+            <prelight file="menu-bullet.png"/>
+            <active file="menu-bullet.png"/>
+          </item>
+          <item type="label">
+            <normal font="Sans Bold 9" color="#ffffff"/>
+            <prelight font="Sans Bold 9" color="#b7b7b7"/>
+            <active font="Sans Bold 9" color="#e9ddaf"/>
+            <pos y="50%" anchor="w"/>
+            <stock type="disconnect"/>
+            <show modes="remote"/>
+          </item>
+          <item type="label">
+            <normal font="Sans Bold 9" color="#ffffff"/>
+            <prelight font="Sans Bold 9" color="#b7b7b7"/>
+            <active font="Sans Bold 9" color="#e9ddaf"/>
+            <pos y="50%" anchor="w"/>
+            <stock type="quit"/>
+            <show modes="flexi"/>
+          </item>
+        </box>
+      </item>
+    </box>
+  </item>
+
+  <!-- pam error -->
+  <item type="label" id="pam-error">
+    <pos x="50%" y="68%" anchor="c" />
+    <normal font="Sans Bold 9" color="#ff9955"/>
+    <text></text>
+  </item>
+  
+  <!-- pam message (hidden, but required) -->
+  <item type="label" id="pam-message">
+    <pos x="50%" anchor="c" />
+    <normal alpha="0.00" font="Sans Bold 9" color="#000000"/>
+    <text></text>
+  </item>
+
+  <!-- caps lock warning -->
+  <item type="label" id="caps-lock-warning">
+    <pos x="50%" y="71%" anchor="c"/>
+    <normal font="Sans Bold 9" color="#ff9955"/>
+    <stock type="caps-lock-warning"/>
+  </item>
+
+  <!-- timer warning -->
+  <item type="label" id="timed-label">
+    <pos x="50%" y="74%" anchor="c"/>
+    <show type="timed"/>
+    <normal font="Sans Bold 9" color="#ff9955"/>
+    <stock type="timed-label"/>
+  </item>
+
+  <!-- hostname and clock -->
+  <item type="rect">
+    <pos x="100%" y="100%" width="box" height="42" anchor="se"/>
+    <box xpadding="20" spacing="20" orientation="horizontal">
+      <item type="label">
+        <pos x="100%" y="50%" anchor="e"/>
+        <normal font="Sans Bold 10" color="#ffffff"/>
+        <text>%h   //</text>
+      </item>
+      <item type="label" id="clock">
+        <pos x="100%" y="50%" anchor="e"/>
+        <normal font="Sans Bold 10" color="#ffffff"/>
+        <text>%c</text>
+      </item>
+    </box>
+  </item>
+</greeter>

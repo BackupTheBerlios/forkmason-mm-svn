@@ -1,0 +1,83 @@
+#!/bin/bash
+
+###############################################################################
+#		(C) 2009-2011 hyperclock (aka Jimmy M. Coleman)
+#        website	:		www.cybernux.org
+#        email		:		hyperclock(at)cybernux(dot)org
+#        svn		:		http://xp-dev.com/svn/ForkForge/
+#        dev		:		http://dev.cybernux.org
+#
+###############################################################################
+###############################################################################
+#    ForkMason - Scripts designed to build Cybernux Linux® based on Debian.
+#
+#    ForkMason is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    ForkMason is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy (see docs/gpl-3.0.txt) of the GNU General
+#    Public License along with ForkMason.  If not, see
+#    <http://www.gnu.org/licenses/>.
+#
+################################################################################
+################################ INFO ##########################################
+#
+#       Derived from the scripts used by the gNewSense Project.
+#       See the original scripts at http://gnewsense.org
+#
+#       Original (C) 2006 - 2009  Brian Brazil
+#
+#################################################################################
+
+
+
+. config
+
+# -security etc.
+VARIANT=$1
+
+DIR=$WORKINGDIR/$MIRRORDIST$VARIANT-$GNS_HOST_ARCH
+
+if ! [ -f $DIR/bootstrap-done ]; then
+	rm -rf $DIR
+	mkdir -p $DIR
+
+	debootstrap --arch=$GNS_HOST_ARCH $MIRRORDIST $DIR $MIRROR
+
+	touch $DIR/bootstrap-done
+fi
+
+cat > $DIR/etc/apt/sources.list <<EOF
+deb $MIRROR $MIRRORDIST main universe
+deb-src $MIRROR $MIRRORDIST main universe
+EOF
+
+if [ -n "$VARIANT" ];then
+	cat >> $DIR/etc/apt/sources.list <<EOF
+deb $MIRROR $MIRRORDIST$VARIANT main universe
+deb-src $MIRROR $MIRRORDIST$VARIANT main universe
+EOF
+fi
+
+# Name chroot in /etc/debian_chroot 
+echo -e "$MIRRORDIST-CHROOT$VARIANT-$GNS_HOST_ARCH" > $DIR/etc/debian_chroot
+
+# Copy primary systems hosts file into chroot
+cp /etc/hosts $DIR/etc/hosts
+
+# Copy of builder for use in chroot
+rsync -ra --delete . $DIR/builder
+
+if ! mountpoint $DIR/proc; then
+	mount proc -t proc $DIR/proc
+fi
+
+chroot $DIR bash -c "set -ex; DEBIAN_PRIORITY=critical aptitude -y update && aptitude -y dist-upgrade && 
+aptitude -y install build-essential kernel-wedge imagemagick netpbm fakeroot sharutils devscripts unifdef equivs $CHROOT_EXTRA_PACKAGES && 
+/builder/fixup-kernel-wedge"

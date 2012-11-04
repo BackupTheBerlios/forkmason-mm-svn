@@ -1,0 +1,43 @@
+usplash-theme-gnewsense (0.3-0.3) deltah; urgency=low
+
+  * Fix Makefile so that usplash works again.
+
+ -- Sam Geeraerts <samgee@elmundolibre.be>  Mon, 27 Dec 2010 13:57:25 +0100
+
+usplash-theme-gnewsense (0.3-0.2) deltah; urgency=low
+
+  * Add 1024x600 image for Yeeloong.
+  * Fix segfault on mipsel.
+
+ -- Robert Millan <rmh@aybabtu.com>  Thu, 26 Mar 2009 15:20:20 +0100
+
+usplash-theme-gnewsense (0.3-0.1) deltah; urgency=low
+
+  * Change architecture to "any".  Provides: usplash-theme.
+
+ -- Robert Millan <rmh@aybabtu.com>  Tue, 10 Feb 2009 18:50:24 +0100
+
+usplash-theme-gnewsense (0.3) deltah; urgency=low
+
+  * Udated logo and throbber
+
+ -- Jean Schurger <jean@schurger.org>  Wed, 06 Aug 2008 20:24:31 -0400
+
+usplash-theme-gnewsense (0.2) deltah; urgency=low
+
+  * Automatic image generation, all sources are in src/
+
+ -- Jean Schurger <jean@schurger.org>  Sun, 27 Jul 2008 17:30:53 -0400
+
+usplash-theme-gnewsense (0.1-1) deltah; urgency=low
+
+  * Better logo
+
+ -- Jean Schurger <jean@schurger.org>  Thu, 24 Jul 2008 21:38:54 -0400
+
+usplash-theme-gnewsense (0.1) deltah; urgency=low
+
+  * Initial release - based on usplash-theme-ubuntu and gnewsens-gdm-themes
+
+ -- Jean Schurger <jean@schurger.org>  Wed, 23 Jul 2008 14:02:54 -0400
+

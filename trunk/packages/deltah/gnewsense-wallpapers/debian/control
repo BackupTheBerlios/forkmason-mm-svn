@@ -1,0 +1,20 @@
+Source: gnewsense-wallpapers
+Section: x11
+Priority: optional
+Maintainer: Leo Arias <elopio@softwarelibrecr.org>
+Build-Depends: debhelper (>= 5), cdbs, python-dev (>= 2.4), python-distutils-extra, python-central (>= 0.5), xsltproc
+XS-Python-Version: all
+Standards-Version: 3.7.3
+
+Package: gnewsense-wallpapers
+Architecture: all
+Section: x11
+Conflicts: feisty-wallpapers (<< 0.13), gutsy-wallpapers (<< 0.19)
+Replaces: feisty-wallpapers (<< 0.13), gutsy-wallpapers (<< 0.19)
+Description: gNewSense Wallpapers
+ The default Wallpapers for gNewSense. At the moment the package contains:
+  * gnewsense_wallpaper1
+  * gnewsense_wallpaper2
+  * gnewsense_wallpaper3
+  * gnewsense_wallpaper5
+  * gnewsense_wallpaper6

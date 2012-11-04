@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE wallpapers SYSTEM "gnome-wp-list.dtd">
+<wallpapers>
+  <wallpaper>
+    <name>gNewSense</name>
+    <filename>/usr/share/backgrounds/deltah.png</filename>
+    <options>zoom</options>
+    <pcolor>#476984</pcolor>
+    <scolor>#476984</scolor>
+    <shade_type>solid</shade_type>
+  </wallpaper>
+</wallpapers>

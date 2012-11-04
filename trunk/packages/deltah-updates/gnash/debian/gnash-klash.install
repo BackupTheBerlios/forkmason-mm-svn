@@ -1,0 +1,4 @@
+usr/share/apps/klash/*
+usr/lib/kde3/*
+usr/bin/kde3-gnash
+usr/share/services/klash_part.desktop

@@ -1,0 +1,247 @@
+#!/usr/bin/make -f
+# The template for this file was originally written by Joey Hess and
+# Craig Small. Then further work was done by Miriam Ruiz for Debian, and
+# Alexander Sack for Ubuntu.
+# Many more modifications were made by Rob Savoye for Gnash and Petter
+# Reinholdtsen for Debian Edu.
+# Some modifications were made by Dmitry Samoyloff for gNewSense's Builder.
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+# These are used for cross-compiling and for saving the configure script
+# from having to guess our platform (since we know it already)
+DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
+DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
+
+MAIN_VERSION = $(shell head -n 1 debian/changelog | cut '-d ' -f 2 | sed 's/[()]//g')
+BUILD_VERSION = $(shell head -n 1 debian/changelog | cut '-d ' -f 2 | sed 's/^[()]//' | sed 's/-.*//')
+
+# this is where all the objects and executables go
+BUILD_DIRECTORY = _build
+
+CFLAGS = -Wall -g -Werror-implicit-function-declaration
+
+# Sometimes we want to build without optimization, usually only when
+# testing package building.
+ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
+	CFLAGS += -O0
+	CXXFLAGS += -O0
+else
+	CFLAGS += -O2
+endif
+
+DEB_DH_SHLIBDEPS_ARGS_ALL := -X* /usr/lib/gnash
+
+patch: patch-stamp
+patch-stamp:
+	dh_testdir
+
+#	Get the source from a tarball if it's present.
+	if [ -r gnash-$(BUILD_VERSION).tar.bz2 ]; then \
+	    printf "\n == UNPACKING SOURCE == \n\n"; \
+	    tar xjf "gnash-$(BUILD_VERSION).tar.bz2"; \
+	    mv "gnash-$(BUILD_VERSION)"/* .; \
+	    rmdir "gnash-$(BUILD_VERSION)"; \
+	    printf "\n ---- End of UNPACKING SOURCE ---- \n\n"; \
+	fi
+
+	touch $@
+
+# CONFIGURE
+
+# Configure Gnash. We use a different set of options, as when building
+# packages, we want to enable everything that Gnash can do, like
+# python support, the SDK cygnal, etc... These are not enabled by
+# default to make it less complicated for end users building Gnash
+# from source.
+# Not building kde4 support, because gNewSense deltah's KDE-4.0 is too old
+# and I doubt anyone use it.
+CONFIGURE_FLAGS = CFLAGS="$(CFLAGS)" CXXFLAGS="$(CXXFLAGS)" \
+	--host=$(DEB_HOST_GNU_TYPE) \
+	--build=$(DEB_BUILD_GNU_TYPE) \
+	--prefix=/usr \
+	--sysconfdir=/etc \
+	--mandir=/usr/share/man \
+	--infodir=/usr/share/info \
+	--disable-testsuite \
+	--disable-rpath \
+	--enable-cygnal \
+	--enable-docbook \
+	--with-plugins-install=system \
+	--disable-dependency-tracking \
+	--enable-python \
+	--enable-jemalloc \
+	--enable-sdkinstall \
+	--enable-media=gst \
+	--enable-gui=gtk,kde3 \
+	--enable-renderer=agg
+
+config: config-stamp
+config-stamp: patch-stamp
+	dh_testdir
+
+ifneq "$(wildcard /usr/share/misc/config.sub)" ""
+	cp -f /usr/share/misc/config.sub config.sub
+endif
+ifneq "$(wildcard /usr/share/misc/config.guess)" ""
+	cp -f /usr/share/misc/config.guess config.guess
+endif
+
+#	Only run autogen.sh if there isn't a configure script. When
+#	building packages from within a configured build directory. In
+#	a freshly checked out source tree from bzr, there is no
+#	configure script. When building from a source tarball as made
+#	by 'make dist', then all the configure scripts are already
+#	included.
+	if test ! -e configure; then \
+	  printf "\n == AUTOGEN == \n\n"; \
+	  $(CURDIR)/autogen.sh; \
+	  printf "\n ---- End of AUTOGEN ---- \n\n"; \
+	fi
+
+#	Make a sub-directory to build all the objects and executables in.
+	mkdir $(BUILD_DIRECTORY)
+
+# 	Configure that build subdirectory.
+	printf "\n == CONFIGURE == \n\n"
+	cd $(BUILD_DIRECTORY) && $(CURDIR)/configure VERSION="$(BUILD_VERSION)" $(CONFIGURE_FLAGS);
+	printf "\n ---- End of CONFIGURE ---- \n\n"
+
+	touch $@
+
+# BUILD
+
+# We don't run make check, as the testsuite takes a long time to build
+# and run, and we just want a package. This of course requires the
+# package builder to run make check before building packages if the
+# state is unknown.
+build: build-stamp
+build-stamp: config-stamp
+	dh_testdir
+
+	@printf "\n == MAKE == \n\n"
+	$(MAKE) -C $(BUILD_DIRECTORY)
+	@printf "\n ---- End of MAKE ---- \n\n"
+	cp libamf/README README.amf
+	cp cygnal/README README.cygnal
+#	@printf "\n == CHECK ==\n\n"
+#	$(MAKE) -C $(BUILD_DIRECTORY) check
+#	@printf "\n ---- End of CHECK ---- \n\n"
+
+	touch $@
+
+# CLEAN
+
+# Remove anything that could be left from a previous build. Basically
+# all temporary files or generated files. We also clean out the
+# manpages, as these are the preformatted ones from the tarball, so
+# they don't get rebuild by docbook unless we remove them.
+clean:
+	dh_testdir
+	dh_testroot
+	rm -f build-stamp 
+	rm -f README.amf README.cygnal
+
+	rm -fr $(BUILD_DIRECTORY)
+
+	@printf "\n == CLEANING PATCHES ==\n\n"
+#	 we have no patches, we're the developers!
+#	$(MAKE) -f /usr/share/quilt/quilt.make unpatch
+	@printf "\n ---- End of CLEANING PATCHES ---- \n\n"
+
+	dh_clean 
+
+# INSTALL
+
+# Install gnash. This also builds the SDK, which isn't directly
+# supported by the gnash Makefiles. We also have to compress the two
+# man pages aliases, which don't get compressed as they're not part of
+# the standard make target. These get generated when building gnash.1,
+# and of course have no associated source file.
+install: build
+	dh_testdir
+	dh_testroot
+#	dh_clean -k 
+	dh_installdirs
+
+	@printf "\n == INSTALL ==\n\n"
+	$(MAKE) -C $(BUILD_DIRECTORY) install DESTDIR=$(CURDIR)/debian/tmp
+	$(MAKE) -C $(BUILD_DIRECTORY) install-plugins DESTDIR=$(CURDIR)/debian/tmp
+	@printf "\n ---- End of INSTALL ---- \n\n"
+
+	install -d $(CURDIR)/debian/tmp/usr/include/gnash/libbase/
+	cp libbase/*.h $(CURDIR)/debian/tmp/usr/include/gnash/libbase/
+	install -d $(CURDIR)/debian/tmp/usr/include/gnash/libnet/
+	cp libbase/*.h $(CURDIR)/debian/tmp/usr/include/gnash/libnet/
+	install -d $(CURDIR)/debian/tmp/usr/include/gnash/libamf/
+	cp libamf/*.h $(CURDIR)/debian/tmp/usr/include/gnash/libamf/
+	install -d $(CURDIR)/debian/tmp/usr/include/gnash/libcore/
+	cp libcore/*.h $(CURDIR)/debian/tmp/usr/include/gnash/libcore/
+	install -d $(CURDIR)/debian/tmp/usr/include/gnash/libmedia/
+	cp libmedia/*.h $(CURDIR)/debian/tmp/usr/include/gnash/libmedia/
+	install -d $(CURDIR)/debian/tmp/usr/include/gnash/backend/
+	cp backend/*.h $(CURDIR)/debian/tmp/usr/include/gnash/backend/
+	install -d $(CURDIR)/debian/tmp/usr/include/gnash/gui/
+	cp gui/*.h $(CURDIR)/debian/tmp/usr/include/gnash/gui/
+
+	install -d $(CURDIR)/debian/tmp/usr/share/pixmaps/
+	cp packaging/*.xpm $(CURDIR)/debian/tmp/usr/share/pixmaps/
+	install -d $(CURDIR)/debian/tmp/usr/share/applications/
+	cp debian/*.desktop $(CURDIR)/debian/tmp/usr/share/applications/
+
+	gzip -f9 $(CURDIR)/debian/tmp/usr/share/man/man1/gtk-gnash.1
+#	kde4-gnash man page points to gnash man page anyway, so it's
+#	suitable for KDE3's gnash too. We also need to sed it to point
+#	to a gzipped page.
+	sed 's/gnash\.1/gnash\.1\.gz/' \
+	  $(CURDIR)/debian/tmp/usr/share/man/man1/kde4-gnash.1 > \
+	  $(CURDIR)/debian/tmp/usr/share/man/man1/kde3-gnash.1
+	gzip -f9 $(CURDIR)/debian/tmp/usr/share/man/man1/kde3-gnash.1
+
+# CREATE PACKAGES
+
+# Build architecture-independent files here.
+binary-indep:
+# We have nothing to do by default.
+
+# Build architecture-dependent files here.
+binary-arch: install
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs -XChangeLog
+	dh_installdocs
+	dh_installexamples
+	dh_install --sourcedir=$(CURDIR)/debian/tmp
+#	dh_installmenu
+#	dh_installmime
+	dh_installman
+	dh_desktop
+	[ ! -e /usr/bin/dh_lintian ] || dh_lintian
+	dh_link
+	dh_strip --dbg-package=gnash-dbg
+	dh_compress
+	dh_fixperms
+	dh_makeshlibs
+	[ ! -e /usr/bin/dh_buildinfo ] || dh_buildinfo
+	dh_installdeb
+	dh_shlibdeps debian/tmp/usr/bin/* debian/tmp/usr/lib/gnash/*
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+VERSION_DATE = $(shell /bin/date --utc +%0Y%0m%0d.%0k%0M)
+VERSION_ID = 0.8.7+bzr.trunk$(VERSION_DATE)
+get-bzr-source:
+	echo Downloading gnash $(VERSION_ID) from CVS...
+#	test -e gnashd && exit
+	bzr branch http://bzr.savannah.gnu.org/r/gnash/trunk gnash
+#	cd gnash; rm -rf `find . -name CVS`
+	tar cvfz "gnash_$(VERSION_ID).orig.tar.gz" gnash
+	mv gnash "gnash-$(VERSION_ID)"
+	cp debian "gnash-$(VERSION_ID)" -a
+	cd "gnash-$(VERSION_ID)"; dch -v "$(VERSION_ID)-1" "New Upstream Release. Downloaded from Bazaar."
+
+
+binary: binary-indep binary-arch
+.PHONY: config build clean binary-indep binary-arch binary install get-bzr-source patch

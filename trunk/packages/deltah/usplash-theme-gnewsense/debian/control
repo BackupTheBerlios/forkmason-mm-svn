@@ -1,0 +1,13 @@
+Source: usplash-theme-gnewsense
+Priority: optional
+Section: misc
+Maintainer: Jean Schurger <jean@schurger.org>
+Standards-Version: 3.7.2
+Build-Depends: debhelper (>= 5.0.0), libusplash-dev, imagemagick
+
+Package: usplash-theme-gnewsense
+Architecture: any
+Depends: ${shlibs:Depends}, initramfs-tools (>= 0.40ubuntu30), usplash (>= 0.4-21)
+Provides: usplash-theme
+Description: Usplash theme for gNewSense
+ Usplash theme for gNewSense

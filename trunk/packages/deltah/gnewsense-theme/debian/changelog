@@ -1,0 +1,11 @@
+gnewsense-theme (0.02) deltah; urgency=low
+
+  * Apply updates from Leo, hopefully fixing several outstanding bugs.
+
+ -- Karl Goetz <karl@kgoetz.id.au>  Thu, 28 Jan 2010 09:41:58 +1030
+
+gnewsense-theme (0.01) deltah; urgency=low
+
+  * initial release (as gNewSense theme, based on the human-theme by Jeff Waugh and Daniel Holbach)
+
+ -- Leo Arias <yo@elopio.net>  Mon, 26 May 2008 21:33:43 -0600

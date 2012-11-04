@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Floating gNewSense
+Comment=gNewSense logo floating around the screen
+Exec=floaters /usr/share/pixmaps/gnewsense-screensaver.svg
+TryExec=floaters
+StartupNotify=false
+Terminal=false
+Type=Application
+Categories=GNOME;Screensaver

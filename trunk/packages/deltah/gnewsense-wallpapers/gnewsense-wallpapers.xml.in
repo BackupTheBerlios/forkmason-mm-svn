@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!DOCTYPE wallpapers SYSTEM "gnome-wp-list.dtd">
+<wallpapers>
+  <wallpaper>
+    <_name>gNewSense</_name>
+    <filename>/usr/share/backgrounds/gnewsense_wallpaper6.png</filename>
+    <options>stretched</options>
+    <pcolor>#476984</pcolor>
+    <scolor>#476984</scolor>
+    <shade_type>solid</shade_type>
+  </wallpaper>
+  <wallpaper>
+    <_name>gNewSense</_name>
+    <filename>/usr/share/backgrounds/gnewsense_wallpaper1.png</filename>
+    <options>stretched</options>
+    <pcolor>#476984</pcolor>
+    <scolor>#476984</scolor>
+    <shade_type>solid</shade_type>
+  </wallpaper>
+  <wallpaper>
+    <_name>gNewSense</_name>
+    <filename>/usr/share/backgrounds/gnewsense_wallpaper2.png</filename>
+    <options>stretched</options>
+    <pcolor>#476984</pcolor>
+    <scolor>#476984</scolor>
+    <shade_type>solid</shade_type>
+  </wallpaper>
+  <wallpaper>
+    <_name>gNewSense</_name>
+    <filename>/usr/share/backgrounds/gnewsense_wallpaper3.png</filename>
+    <options>stretched</options>
+    <pcolor>#476984</pcolor>
+    <scolor>#476984</scolor>
+    <shade_type>solid</shade_type>
+  </wallpaper>
+  <wallpaper>
+    <_name>gNewSense</_name>
+    <filename>/usr/share/backgrounds/gnewsense_wallpaper5.png</filename>
+    <options>stretched</options>
+    <pcolor>#476984</pcolor>
+    <scolor>#476984</scolor>
+    <shade_type>solid</shade_type>
+  </wallpaper>
+</wallpapers>

@@ -1,0 +1,7 @@
+[GdmGreeterTheme]
+Greeter=deltah.xml
+Name=gNewSense GDM theme for deltah
+Description=gNewSense welcome screen for deltah
+Author=Patricio Maciel "Daleduro"
+Copyright=GPLv3 or later (c) 2008 Patricio Maciel "Daleduro" <daleduro.phm@gmail.com
+Screenshot=screenshot.png
